@@ -25,6 +25,7 @@ const unsigned char chip8_fontset[80] =
         0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
         0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
+const uint32_t BUFFER_SIZE = 512;
 
 class chip8 {
 private:
@@ -52,17 +53,41 @@ private:
     unsigned char key[16];
     // True if should update graphics. False otherwise
     bool drawFlag;
-
+    // Helper functions
     void clearDisplay();
     void clearStack();
     void clearRegisters();
     void clearMemory();
-
     void loadFont();
-
-    void loadProgram(char buffer[], uint32_t bufferSize);
-
+    void loadProgram(char buffer[]);
     std::FILE* loadGame(const char* name);
+    // Functions
+    // 0NNN
+    void op0(unsigned short op);
+
+    // 00E0
+    void op1(unsigned short op);
+
+    // 00EE
+    void op2(unsigned short op);
+
+    // 1NNN
+    void op3(unsigned short op);
+
+    // 2NNN
+
+
+    // 3XNN
+
+
+    // 4XNN
+
+
+    // 5XY0
+
+
+    // 6XNN
+
 public:
     chip8();
     void initialize(const char* name);

@@ -23,20 +23,18 @@ void chip8::initialize(const char* name) {
     loadFont();
     // Load program
 
-    char buffer[100];
+    char buffer[BUFFER_SIZE];
     FILE *game = loadGame(name);
     std::setbuf(game, buffer);
-    loadProgram(buffer, 0);
+    loadProgram(buffer);
 }
 
 void chip8::emulateCycle() {
     opcode = memory[pc] << 8 | memory[pc + 0x1];
 
     switch(opcode & 0xF000) {
-        case 0x0000:
-            break;
-        case 0x000E:
-            break;
+        case 0x1000:
+            // goto addr NNN
     }
 
     delay_timer++;
@@ -72,12 +70,16 @@ std::FILE* chip8::loadGame(const char* name) {
     return std::fopen(name, "r");
 }
 
-void chip8::loadProgram(char buffer[], const uint32_t bufferSize) {
-    for(uint32_t i = 0; i < bufferSize; ++i) {
+void chip8::loadProgram(char buffer[]) {
+    for(uint32_t i = 0; i < BUFFER_SIZE; ++i) {
         memory[i + pc] = buffer[i];
     }
 }
 
 bool chip8::getDrawFlag() {
     return drawFlag;
+}
+
+void chip8::op3(unsigned short op) {
+
 }
