@@ -34,12 +34,26 @@ void chip8::emulateCycle() {
 
     switch(opcode & 0xF000) {
         case 0x1000:
-            // goto addr NNN
+            op3();
+            break;
+        case 0x3000:
+            op5();
+            break;
+        case 0x4000:
+            op6();
+            break;
+        case 0x0004:
+            op14();
+            break;
+        case 0x0033:
+            op32();
+            break;
     }
 
     delay_timer++;
     sound_timer++;
     key[0]++;
+    pc += 2;
 
 
 }
@@ -80,6 +94,61 @@ bool chip8::getDrawFlag() {
     return drawFlag;
 }
 
-void chip8::op3(unsigned short op) {
+inline unsigned short chip8::xReg() {
+    return (opcode & 0x0F00) >> 8;
+}
 
+inline unsigned short chip8::yReg() {
+    return (opcode & 0x00F0) >> 4;
+}
+
+void chip8::op3() {
+    pc = (opcode & 0x0FFF);
+}
+
+void chip8::op4() {
+    stack[sp] = pc;
+    ++sp;
+    pc = opcode & 0x0FFF;
+}
+
+void chip8::op5() {
+    if(V[xReg()] == (opcode & 0x00FF)) {
+        pc += 2; // ?
+    }
+}
+
+void chip8::op6() {
+    if(V[xReg()] != (opcode & 0x00FF)) {
+        pc += 2; // ?
+    }
+}
+
+void chip8::op7() {
+    if(V[xReg()] == V[yReg()]) {
+        pc += 2; // ?
+    }
+}
+
+void chip8::op8() {
+    V[xReg()] = (opcode & 0x00FF);
+}
+
+void chip8::op9() {
+    V[xReg()] += (opcode & 0x00FF);
+}
+
+void chip8::op14() {
+    if(V[yReg()] > (0xFF - V[xReg()])) {
+        V[0xF] = 1; // Carry
+    } else {
+        V[0xF] = 0;
+    }
+    V[xReg()] += V[yReg()];
+}
+
+void chip8::op32() {
+    memory[I] =     V[xReg()] / 100;
+    memory[I + 1] = V[xReg()] / 10 % 10;
+    memory[I + 2] = V[xReg()] % 100 % 10;
 }

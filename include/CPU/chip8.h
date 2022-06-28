@@ -61,32 +61,74 @@ private:
     void loadFont();
     void loadProgram(char buffer[]);
     std::FILE* loadGame(const char* name);
+    inline unsigned short xReg();
+    inline unsigned short yReg();
     // Functions
     // 0NNN
-    void op0(unsigned short op);
+    void op0();
 
     // 00E0
-    void op1(unsigned short op);
+    void op1();
 
     // 00EE
-    void op2(unsigned short op);
+    void op2();
 
     // 1NNN
-    void op3(unsigned short op);
+    void op3();
 
     // 2NNN
-
+    void op4();
 
     // 3XNN
-
+    void op5();
 
     // 4XNN
-
+    void op6();
 
     // 5XY0
-
+    void op7();
 
     // 6XNN
+    void op8();
+
+    // 7XNN
+    void op9();
+
+    // 8XY0
+    void op10();
+
+    // 8XY1
+    void op11();
+
+    // 8XY2
+    void op12();
+
+    // 8XY3
+    void op13();
+    // 8XY4
+    void op14();
+    // 8XY5
+    // 8XY7
+    // 8XY7
+    // 8XYE
+    // 9XY0
+    // ANNN
+    // BNNN
+    // CXNN
+    // DXYN
+    void op23();
+    // EX9E
+    // EXA1
+    // FX07
+    // FX0A
+    // FX15
+    // FX18
+    // FX1E
+    // FX29
+    // FX33
+    void op32();
+    // FX55
+    // FX65
 
 public:
     chip8();
