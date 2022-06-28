@@ -1,6 +1,5 @@
 #include "../include/CPU/chip8.h"
 
-
 chip8::chip8() {
 
 }
@@ -32,51 +31,44 @@ void chip8::initialize(const char* name) {
 void chip8::emulateCycle() {
     opcode = memory[pc] << 8 | memory[pc + 0x1];
 
-    switch(opcode & 0xF000) {
-        case 0x1000:
-            op3();
-            break;
-        case 0x3000:
-            op5();
-            break;
-        case 0x4000:
-            op6();
-            break;
-        case 0x0004:
-            op14();
-            break;
-        case 0x0033:
-            op32();
-            break;
-    }
     pc += 2;
 
     if(delay_timer > 0) {
         --delay_timer;
     }
+
     if(sound_timer > 0) {
         if(sound_timer == 1) {
             printf("BEEP!\n");
             --sound_timer;
         }
     }
-    key[0]++;
+
+    key[0]++; // tmp
 }
 
 void chip8::clearDisplay() {
-    for(uint32_t i = 0; i < 64 * 32; ++i) gfx[i] = 0;
+    for(uint32_t i = 0; i < 64 * 32; ++i) {
+        gfx[i] = 0;
+    }
 }
 
 void chip8::clearStack() {
-    for(uint32_t i = 0; i < 16; ++i) stack[i] = 0;
+    for(uint32_t i = 0; i < 16; ++i) {
+        stack[i] = 0;
+    }
 }
 
 void chip8::clearRegisters() {
-    for(uint32_t i = 0; i < 16; ++i) V[i] = 0;
+    for(uint32_t i = 0; i < 16; ++i) {
+        V[i] = 0;
+    }
 }
 
 void chip8::clearMemory() {
-    for(uint32_t i = 0; i < 4096; ++i) memory[i] = 0;
+    for(uint32_t i = 0; i < 4096; ++i) {
+        memory[i] = 0;
+    }
 }
 
 void chip8::loadFont() {
@@ -132,19 +124,19 @@ void chip8::op4() {
 
 void chip8::op5() {
     if(V[xReg()] == (opcode & 0x00FF)) {
-        pc += 2; // ?
+        pc += 2;
     }
 }
 
 void chip8::op6() {
     if(V[xReg()] != (opcode & 0x00FF)) {
-        pc += 2; // ?
+        pc += 2;
     }
 }
 
 void chip8::op7() {
     if(V[xReg()] == V[yReg()]) {
-        pc += 2; // ?
+        pc += 2;
     }
 }
 

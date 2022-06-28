@@ -79,8 +79,7 @@ private:
     std::FILE* loadGame(const char* name);
     inline unsigned short xReg();
     inline unsigned short yReg();
-    // opcode
-    
+    // opcodes
     // 0NNN
     void op0();
     // 00E0
@@ -129,8 +128,6 @@ private:
     void op22();
     // DXYN
     void op23();
-
-
     // EX9E
     void op24();
     // EXA1
